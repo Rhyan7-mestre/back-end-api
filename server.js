@@ -29,7 +29,3 @@ try {
 app.listen(port, () => {            // Um socket para "escutar" as requisições
   console.log(`Serviço rodando na porta:  ${port}`);
 });
-import pkg from "pg";
-import dotenv from "dotenv";
-dotenv.config();         // Carrega e processa o arquivo .env
-const { Pool } = pkg;    // Utiliza a Classe Pool do Postgres
