@@ -1,6 +1,8 @@
 // ######
 // Local onde os pacotes de dependências serão importados
 // ######
+//server.js
+let pool = null; // Variável para armazenar o pool de conexões com o banco de dados
 import express from "express"; // Requisição do pacote do express
 import pkg from "pg"; // Requisição do pacote do pg (PostgreSQL)
 import dotenv from "dotenv"; // Importa o pacote dotenv para carregar variáveis de ambiente
@@ -17,14 +19,21 @@ dotenv.config(); // Carrega as variáveis de ambiente do arquivo .env
 // ######
 
 //server.js
+//server.js
+// Função para obter uma conexão com o banco de dados
+function conectarBD() {
+  if (!pool) {
+    pool = new Pool({
+      connectionString: process.env.URL_BD,
+    });
+  }
+  return pool;
+}
 app.get("/questoes", async (req, res) => {
 	console.log("Rota GET /questoes solicitada"); // Log no terminal para indicar que a rota foi acessada
-const { Pool } = pkg; // Obtém o construtor Pool do pacote pg para gerenciar conexões com o banco de dados PostgreSQL
+//server.js
+const db = conectarBD(); // Cria uma nova instância do Pool para gerenciar conexões com o banco de dados
 
-const db = new Pool({
-  // Cria uma nova instância do Pool para gerenciar conexões com o banco de dados
-  connectionString: process.env.URL_BD, // Usa a variável de ambiente do arquivo .env DATABASE_URL para a string de conexão
-});
 
 
 try {
@@ -49,6 +58,8 @@ app.get("/", async (req, res) => {
 
   console.log("Rota GET / solicitada"); // Log no terminal para indicar que a rota foi acessada
 
+
+  
   const { Pool } = pkg; // Obtém o construtor Pool do pacote pg para gerenciar conexões com o banco de dados PostgreSQL
 
   const db = new Pool({
